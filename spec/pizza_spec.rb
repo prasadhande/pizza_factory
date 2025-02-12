@@ -21,6 +21,15 @@ RSpec.describe Pizza do
       expect(pizza.price("Large")).to eq(200)
     end
 
+    it "raises an error for an empty size string" do  # Example failing test
+      expect { pizza.price("") }.to raise_error("Invalid pizza size")
+    end
+
+    it "raises an error for a size with spaces" do # Example failing test
+        expect { pizza.price(" Large ") }.to raise_error("Invalid pizza size")
+    end
+
+
     it "raises an error for an invalid size" do
       expect { pizza.price("Extra Large") }.to raise_error("Invalid pizza size")
     end
