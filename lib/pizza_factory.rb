@@ -44,8 +44,8 @@ class PizzaFactory
   end
 
   # Restocks the inventory for a given ingredient.
-  # @param ingredient
-    # @param ingredient [String] The ingredient to restock.
+  ## lib/pizza_factory.rb (continued)
+  # @param ingredient [String] The ingredient to restock.
   # @param quantity [Integer] The quantity to restock.
   def restock_inventory(ingredient, quantity)
     @inventory[ingredient] ||= 0 # Initialize to 0 if not present
@@ -70,8 +70,8 @@ class PizzaFactory
   #   Each hash should have keys :side (String) and optionally :quantity (Integer).
   # @return [Order] The created order object.
   # @raise [RuntimeError] If any input is invalid or business rules are violated.
+  # @raise [TypeError] If items or side_items are not arrays.
   def create_order(items, side_items = [])
-
     raise TypeError, "items must be an array" unless items.is_a?(Array)
     raise TypeError, "side_items must be an array" unless side_items.is_a?(Array)
 
