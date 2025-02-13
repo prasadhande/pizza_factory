@@ -1,4 +1,5 @@
 require_relative 'order_rule'
+require_relative 'order_rules/no_order_cancellation_rule' 
 
 # Represents an order with order items and side items.
 class Order
@@ -11,7 +12,8 @@ class Order
       VegetarianPizzaNonVegToppingRule.new,
       NonVegPizzaNoPaneerRule.new,
       OnlyOneNonVegToppingRule.new,
-      LargePizzaTwoFreeToppingsRule.new
+      LargePizzaTwoFreeToppingsRule.new,
+      NoOrderCancellationRule.new
     ] # Initialize rules
   end
 
