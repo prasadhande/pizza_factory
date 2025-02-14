@@ -68,14 +68,11 @@ This project implements a Pizza Factory system, allowing users to place orders f
     Similarly, you can run other individual spec files like:
 
     ```bash
-    rspec spec/topping_spec.rb
-    rspec spec/crust_spec.rb
-    rspec spec/side_spec.rb
-    rspec spec/order_item_spec.rb
-    rspec spec/side_item_spec.rb
-    rspec spec/order_spec.rb
-    rspec spec/pizza_factory_spec.rb
-    rspec spec/order_rule_spec.rb
+    rspec spec/pizza_factory/service_spec.rb
+    rspec spec/pizza_factory/pizza_spec.rb
+    rspec spec/pizza_factory/topping_spec.rb
+    rspec spec/pizza_factory/side_spec.rb
+
     ```
 
     This is useful for focusing on specific parts of the system during development.
@@ -84,39 +81,109 @@ This project implements a Pizza Factory system, allowing users to place orders f
 ### Example Usage 
 
 ```ruby
-factory = PizzaFactory.new
+require_relative 'lib/pizza_factory'
 
-# Add pizzas to the menu
-factory.add_pizza(Pizza.new("Margherita", { "Regular" => 100, "Medium" => 150, "Large" => 200 }, true))
-# ... add more pizzas
+### Initialize the service
+service = PizzaFactory::Service.new
 
-# Add toppings
-factory.add_topping(Topping.new("Mushrooms", 20, true))
-# ... add more toppings
 
-# Add crusts
-factory.add_crust(Crust.new("Thin Crust"))
-# ... add more crusts
+# Restock inventory with necessary ingredients
+service.restock_inventory(:deluxe_veggie, 10)
+service.restock_inventory(:new_hand_tossed, 10)
+service.restock_inventory(:capsicum, 10)
+service.restock_inventory(:mushroom, 10)
+service.restock_inventory(:extra_cheese, 10)
+service.restock_inventory(:cold_drink, 10)
 
-# Add sides
-factory.add_side(Side.new("Coke", 50))
-# ... add more sides
 
-# Create an order
-items = [
-  { pizza: "Margherita", size: "Medium", crust: "Thin Crust", toppings: ["Mushrooms"] }
-]
+# Create a new order
+order = PizzaFactory::Order.new
 
-side_items = [{side: "Coke", quantity: 2}]
+# Create a pizza
+pizza = PizzaFactory::Pizza.new(:vegetarian, :deluxe_veggie, :regular, :new_hand_tossed)
+pizza.add_topping(PizzaFactory::Topping.new(:veg, :capsicum))
+pizza.add_topping(PizzaFactory::Topping.new(:veg, :mushroom))
+pizza.extra_cheese = true
 
-order = factory.create_order(items, side_items)
+# Add pizza to order
+order.add_pizza(pizza)
 
-# Get the total price
-puts order.total_price # Output the total price
+# Add side to order
+order.add_side(PizzaFactory::Side.new(:cold_drink))
 
-# Handle potential errors (e.g., invalid input, business rule violations)
-begin
-  order = factory.create_order(items, side_items)
-rescue RuntimeError => e
-  puts "Error: #{e.message}"
-end
+# Verify and place the order
+puts service.place_order(order) # Output: "Order placed successfully! Your total is Rs. 295."
+
+
+# Add new pizza to the menu
+service.add_new_pizza(:vegetarian, :new_veggie_special, { regular: 200, medium: 300, large: 400 })
+
+# Add new topping to the menu
+service.add_new_topping(:veg, :broccoli, 20)
+
+# Add new side to the menu
+service.add_new_side(:garlic_bread, 60)
+
+
+# Change the price of an existing pizza
+service.change_price(:pizza, :deluxe_veggie, { regular: 160, medium: 240, large: 320 })
+
+# Change the price of an existing topping
+service.change_price(:topping, :capsicum, 30)
+
+# Change the price of an existing side
+service.change_price(:side, :cold_drink, 70)
+
+
+
+
+## Full Script Example
+
+require_relative 'lib/pizza_factory'
+
+# Initialize the service
+service = PizzaFactory::Service.new
+
+# Restock inventory with necessary ingredients
+service.restock_inventory(:deluxe_veggie, 10)
+service.restock_inventory(:new_hand_tossed, 10)
+service.restock_inventory(:capsicum, 10)
+service.restock_inventory(:mushroom, 10)
+service.restock_inventory(:extra_cheese, 10)
+service.restock_inventory(:cold_drink, 10)
+
+# Create a new order
+order = PizzaFactory::Order.new
+
+# Create a pizza
+pizza = PizzaFactory::Pizza.new(:vegetarian, :deluxe_veggie, :regular, :new_hand_tossed)
+pizza.add_topping(PizzaFactory::Topping.new(:veg, :capsicum))
+pizza.add_topping(PizzaFactory::Topping.new(:veg, :mushroom))
+pizza.extra_cheese = true
+
+# Add pizza to order
+order.add_pizza(pizza)
+
+# Add side to order
+order.add_side(PizzaFactory::Side.new(:cold_drink))
+
+# Verify and place the order
+puts service.place_order(order) # Output: "Order placed successfully! Your total is Rs. 295."
+
+# Add new pizza to the menu
+service.add_new_pizza(:vegetarian, :new_veggie_special, { regular: 200, medium: 300, large: 400 })
+
+# Add new topping to the menu
+service.add_new_topping(:veg, :broccoli, 20)
+
+# Add new side to the menu
+service.add_new_side(:garlic_bread, 60)
+
+# Change the price of an existing pizza
+service.change_price(:pizza, :deluxe_veggie, { regular: 160, medium: 240, large: 320 })
+
+# Change the price of an existing topping
+service.change_price(:topping, :capsicum, 30)
+
+# Change the price of an existing side
+service.change_price(:side, :cold_drink, 70)
