@@ -6,6 +6,7 @@ require_relative '../../lib/pizza_factory/pizza'
 require_relative '../../lib/pizza_factory/topping'
 require_relative '../../lib/pizza_factory/order'
 require_relative '../../lib/pizza_factory/inventory'
+require_relative '../../lib/pizza_factory/side'
 
 module PizzaFactory
   RSpec.describe BusinessRules do
