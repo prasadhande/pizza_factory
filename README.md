@@ -62,13 +62,13 @@ This project implements a Pizza Factory system, allowing users to place orders f
 3. You can also run individual spec files. For example, to run the `pizza_spec.rb` file:
 
     ```bash
-    rspec spec/pizza_spec.rb
+    rspec spec/pizza_factory/pizza_spec.rb
     ```
 
     Similarly, you can run other individual spec files like:
 
     ```bash
-    rspec spec/pizza_factory/service_spec.rb
+    rspec spec/pizza_factory/inventory_spec.rb
     rspec spec/pizza_factory/pizza_spec.rb
     rspec spec/pizza_factory/topping_spec.rb
     rspec spec/pizza_factory/side_spec.rb
